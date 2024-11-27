@@ -1,0 +1,2 @@
+* Sources
+- https://zyedidia.github.io/blog/posts/1-d-baremetal/
