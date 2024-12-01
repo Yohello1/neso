@@ -1,2 +1,9 @@
 * Sources
 - https://zyedidia.github.io/blog/posts/1-d-baremetal/
+* How to build/Run
+We use nix (something) to make sure that everyone has the **exact same** envrioment, and the exact same software. This is so we dont have a 'it works on my computer situation'.
+This means that to run our software, you'll need to have nix-shell (I think???) or something like that installed to enter the nix-development envrioment.
+
+So to run it, run these commands
+- `nix develop` enter into the development envrioment
+- Run whatever commands you need!
