@@ -30,7 +30,7 @@ SECTIONS
 	.kstack : {
 		. = ALIGN(16);
 		. += 4K;
-		_stack_start = .;
+		__stack_start = .;
 	}
     	/DISCARD/ : { *(.comment .note .eh_frame) }
 }

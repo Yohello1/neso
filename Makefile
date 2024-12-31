@@ -12,6 +12,8 @@ virt.dtc:
 virt.dts: virt.dtc
 	dtc virt.dtc > virt.dts
 
+prog.bin:
+	riscv64-none-elf-objcopy -O binary prog.elf prog.bin
 %.o: %.c
 	$(cc) -c $< -o $@
 %.o: %.s
