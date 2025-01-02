@@ -1,8 +1,8 @@
 .section ".text.boot"
 
-.global
+.global _start
 _start:
     la sp, _stack_start
-    call dstart
+    call cstart
 _hlt:
     j _hlt

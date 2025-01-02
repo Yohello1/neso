@@ -6,28 +6,39 @@
 
 # IDIR =../include
 CC=riscv64-none-elf-gcc
-CFLAGS=-O2 -mabi=lp64 -march=rv64imac
+CFLAGS=-march=rv64imac -mabi=lp64 -Oz -ffreestanding -nostdlib -mcmodel=medlow
 
-ODIR=obj
-LDIR=../lib
-TMPFILES=tmp
+AS=riscv64-none-elf-as
+ASMFLAGS=-march=rv64imac
 
-hellomake: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+LDER=riscv64-none-elf-ld
+
+OBJCOPIER=riscv64-none-elf-objcopy
+OBJDUMPER=riscv64-none-elf-objdump
 
 
-all:
-	mkdir $(ODIR)
-	mkdir $(TMPFILES)
-	mkdir bin
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
 
-virt.dts:
-	qemu-system-riscv64 -machine virt,dumpdtb=$(TMPFILES)virt.dtb
-	dtc $(TMPFILES)/virt.dtb > $(TMPFILES)/virt.dts
+all: prog.bin
 
-.PHONY: clean
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.s
+	$(AS) $(ASMFLAGS) $< -c -o $@
+
+prog.elf: start.o $(OBJ)
+	$(LDER) -Tlink.ld $^ -o $@
+
+%.bin: %.elf
+	$(OBJCOPIER) $< -O binary $@
+
+%.list: %.elf
+	$(OBJDUMPER) -D $< > $@
+
+run: prog.bin
+	qemu-system-riscv64 -bios none -machine virt -kernel prog.bin
 
 clean:
-	rm -rf $(ODIR)/*.o bin/ $(TMPFILES)/
-
-# end
+	rm -f *.bin *.list *.o *.elf

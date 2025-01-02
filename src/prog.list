@@ -1,0 +1,40 @@
+
+prog.elf:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+0000000080000000 <_start>:
+    80000000:	00001117          	auipc	sp,0x1
+    80000004:	01010113          	add	sp,sp,16 # 80001010 <_stack_start>
+    80000008:	006000ef          	jal	8000000e <cstart>
+
+000000008000000c <_hlt>:
+    8000000c:	a001                	j	8000000c <_hlt>
+
+000000008000000e <cstart>:
+    8000000e:	a001                	j	8000000e <cstart>
+
+Disassembly of section .riscv.attributes:
+
+0000000000000000 <.riscv.attributes>:
+   0:	3341                	addw	t1,t1,-16
+   2:	0000                	unimp
+   4:	7200                	ld	s0,32(a2)
+   6:	7369                	lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <_start-0x7fffffec>
+   c:	0029                	c.nop	10
+   e:	0000                	unimp
+  10:	1004                	add	s1,sp,32
+  12:	7205                	lui	tp,0xfffe1
+  14:	3676                	.insn	2, 0x3676
+  16:	6934                	ld	a3,80(a0)
+  18:	7032                	.insn	2, 0x7032
+  1a:	5f31                	li	t5,-20
+  1c:	326d                	addw	tp,tp,-5 # fffffffffffe0ffb <_stack_start+0xffffffff7ffdffeb>
+  1e:	3070                	.insn	2, 0x3070
+  20:	615f 7032 5f31      	.insn	6, 0x5f317032615f
+  26:	30703263          	.insn	4, 0x30703263
+  2a:	7a5f 6d6d 6c75      	.insn	6, 0x6c756d6d7a5f
+  30:	7031                	c.lui	zero,0xfffec
+  32:	0030                	add	a2,sp,8
