@@ -6,7 +6,7 @@
 
 # IDIR =../include
 CC=riscv64-none-elf-gcc
-CFLAGS=-march=rv64imac -mabi=lp64 -Oz -ffreestanding -nostdlib -mcmodel=medlow
+CFLAGS=-march=rv64imac -mabi=lp64 -Oz -ffreestanding -nostdlib -mcmodel=medany
 
 AS=riscv64-none-elf-as
 ASMFLAGS=-march=rv64imac
@@ -42,3 +42,10 @@ run: prog.bin
 
 clean:
 	rm -f *.bin *.list *.o *.elf
+
+
+
+####### DTS Stuff
+dtsData:
+	qemu-system-riscv64 -machine virt,dumpdtb=virt.dtb
+	dtc virt.dtb > virt.dts
