@@ -2,7 +2,7 @@
 #ifndef OBJECT_C_DEF
 #define OBJECT_C_DEF
 
-#include <stdint.h>
+#include "object.h"
 
 
 uint8_t volatileLoad8(volatile uint8_t* ptr) {
