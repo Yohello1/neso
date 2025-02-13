@@ -1,4 +1,6 @@
 #include "uart.h"
+#include "stdint.h"
+
 
 void tx(char b) {
     volatileStore8(Uart.base, b);
