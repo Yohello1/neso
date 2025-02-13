@@ -17,10 +17,4 @@ void volatileStore32(volatile uint32_t* ptr, uint32_t value);
 void volatileStore64(volatile uint64_t* ptr, uint64_t value);
 
 
-// Printing values
-void printElement(char c)
-{
-    Uart.tx(c);
-}
-
 #endif // OBJECT_H_

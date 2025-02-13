@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 
+#include "object.h"
 
-void volatileStore8(volatile uint8_t* ptr, uint8_t value);
+// void volatileStore8(volatile uint8_t* ptr, uint8_t value);
 
 typedef struct {
     volatile uint8_t* base;

@@ -1,13 +1,17 @@
 #include <stdint.h>
 #include "uart.h"
 
+#if defined(__linux__)
+#error "You are not using a cross-compiler, you will most certainly run into trouble"
+#endif
+
 void kmain(void)
 {
 
 
 
-    Uart.tx(Uart.base, 0x68);
-    Uart.tx(Uart.base, 0x61);
-    Uart.tx(Uart.base, 0x69);
+    Uart.tx(0x68);
+    Uart.tx(0x61);
+    Uart.tx(0x69);
 
 }
