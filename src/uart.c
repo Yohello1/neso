@@ -1,5 +1,4 @@
 #include "uart.h"
-#include "stdint.h"
 
 
 void tx(char b) {
@@ -11,12 +10,27 @@ void printElement(char c)
     Uart.tx(c);
 }
 
-static int8_t strlen(const char* str)
+static size_t strlen(const char* str)
 {
-    int8_t len = 0;
+    size_t len = 0;
     while(str[len])
+    {
         len++;
+        if(len == SIZE_MAX)
+            break;
+    }
     return len;
+}
+
+void printStr(const char* string)
+{
+    size_t len = strlen(string);
+
+    for(size_t i = 0; i < len; i++)
+    {
+        printElement(string[i]);
+    }
+
 }
 
 Ns16650a Uart = {
