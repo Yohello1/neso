@@ -2,7 +2,7 @@
 #define STDINT_H_
 
 /* size_t */
-typedef uint64_t size_t;
+typedef uint32_t size_t;
 
 /* Signed  */
 

@@ -5,6 +5,11 @@
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
 #endif
 
+size_t tempFunc()
+{
+    return sizeof(char);
+}
+
 void kmain(void)
 {
 
