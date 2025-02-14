@@ -16,6 +16,7 @@ void kmain(void)
     Uart.tx(0x61);
     Uart.tx(0x69);
 
+    rx();
 
-    printStr("\nHello world!\n");
+    printStr("\r\nHello world!\r\n");
 }

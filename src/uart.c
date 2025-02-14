@@ -22,6 +22,18 @@ static size_t strlen(const char* str)
     return len;
 }
 
+char rx()
+{
+    char temp = 0x0;
+    while( temp == 0x0)
+    {
+        temp = volatileLoad8(Uart.base);
+
+    }
+    return temp;
+
+}
+
 void printStr(const char* string)
 {
     size_t len = strlen(string);

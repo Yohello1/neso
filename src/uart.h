@@ -5,8 +5,7 @@
 #include <stddef.h>
 #include "object.h"
 
-// void volatileStore8(volatile uint8_t* ptr, uint8_t value);
-
+// voi
 typedef struct {
     volatile uint8_t* base;
     void (*tx)(uint8_t b);
@@ -14,7 +13,10 @@ typedef struct {
 
 extern Ns16650a Uart;
 
+static char* ringBuffer[8];
+
 void tx(char b);
+char rx();
 void printStr(const char* string);
 
 #endif // UART_H_
