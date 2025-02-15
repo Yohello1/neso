@@ -15,6 +15,8 @@ extern Ns16650a Uart;
 void tx();
 void rx();
 void printStr(const char* string);
+void getStr(char* string, size_t maxLen);
 void cycle();
+
 
 #endif // UART_H_

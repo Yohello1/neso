@@ -27,7 +27,7 @@ static struct ringBuffer
 {
     uint8_t lastWritten;
     uint8_t lastRead;
-    char buffer[512];
+    char buffer[128];
 }inputBuf, outputBuf;
 
 Ns16650a Uart = {
@@ -36,24 +36,36 @@ Ns16650a Uart = {
 
 static void writeRingBuffer(struct ringBuffer* buff, char b)
 {
-    buff->lastWritten += 1;
-    buff->lastWritten %= 512;
-    buff->buffer[buff->lastWritten] = b;
+    uint8_t nextPos = (buff->lastWritten + 1) % 128;
+    if (nextPos != buff->lastRead)
+    {
+        buff->buffer[buff->lastWritten] = b;
+        buff->lastWritten = nextPos;
+    }
 }
 
 static char readRingBuffer(struct ringBuffer* buff)
 {
-    buff->lastRead += 1;
-    buff->lastRead %= 512;
-    char temp = buff->buffer[buff->lastRead];
-    buff->buffer[buff->lastRead] = 0x0;
+    if (buff->lastRead == buff->lastWritten)
+        return 0;
 
-    return temp;
+    buff->lastRead = (buff->lastRead + 1) % 128;
+    return buff->buffer[buff->lastRead];
 }
 
 void tx()
 {
-    volatileStore8(Uart.base, readRingBuffer(&outputBuf));
+    char temp = readRingBuffer(&outputBuf);
+    if (temp != 0)
+    {
+        volatileStore8(Uart.base, temp);
+    }
+}
+void rx()
+{
+    char temp = volatileLoad8(Uart.base);
+    if(temp != 0x0)
+        writeRingBuffer(&inputBuf, temp);
     volatileStore8(Uart.base, 0x0);
 }
 
@@ -69,18 +81,6 @@ static size_t strlen(const char* str)
     return len;
 }
 
-void rx()
-{
-    char temp = 0x0;
-    while( temp == 0x0)
-    {
-        temp = volatileLoad8(Uart.base);
-
-    }
-    writeRingBuffer(&inputBuf, temp);
-    volatileStore8(Uart.base, 0x0);
-}
-
 // 512 char max size
 void printStr(const char* string)
 {
@@ -90,6 +90,21 @@ void printStr(const char* string)
     {
         writeRingBuffer(&outputBuf, string[i]);
     }
+}
+
+void getStr(char* string, size_t maxLen)
+{
+    size_t i = 0;
+    while(i < (maxLen - 1))
+    {
+        char temp = readRingBuffer(&inputBuf);
+        if(temp == 0 || temp == '\n')
+            break;
+
+        string[i++] = temp;
+    }
+
+    string[i] = '\0';
 
 }
 
@@ -97,5 +112,4 @@ void cycle()
 {
     rx();
     tx();
-
 }
