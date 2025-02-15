@@ -9,14 +9,12 @@
 
 void kmain(void)
 {
-
-
-
-    Uart.tx(0x68);
-    Uart.tx(0x61);
-    Uart.tx(0x69);
-
-    rx();
-
     printStr("\r\nHello world!\r\n");
+
+    while(1)
+    {
+        cycle();
+    }
+
+
 }

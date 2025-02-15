@@ -8,15 +8,13 @@
 // voi
 typedef struct {
     volatile uint8_t* base;
-    void (*tx)(uint8_t b);
 } Ns16650a;
 
 extern Ns16650a Uart;
 
-static char* ringBuffer[8];
-
-void tx(char b);
-char rx();
+void tx();
+void rx();
 void printStr(const char* string);
+void cycle();
 
 #endif // UART_H_
