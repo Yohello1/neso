@@ -7,3 +7,11 @@ This means that to run our software, you'll need to have nix-shell (I think???) 
 So to run it, run these commands
 - `nix develop` enter into the development envrioment
 - Run whatever commands you need!
+
+* Current tasks
+- [ ] Standard library stuff
+  - [ ] stdint.h
+  - [ ] stdbool.h
+  - [ ] stddef.h
+  - [ ] stdlib.h
+  - [ ] time.h
