@@ -8,6 +8,13 @@ So to run it, run these commands
 - `nix develop` enter into the development envrioment
 - Run whatever commands you need!
 
+* Documetnation
+- The lord above has answered my prayers, we have documentation now
+  - https://www.gitlink.org.cn/OSchip/RVspace
+  - https://doc-en.rvspace.org/Doc_Center/visionfive_2.html
+- The DTB files can be found here; https://doc-en.rvspace.org/VisionFive2/SDK_Quick_Start_Guide/VisionFive2_SDK_QSG/booting_visionfive_2.html
+-
+
 * Current tasks
 - [ ] Standard library stuff
   - Im not sure how much of this we actually need?
