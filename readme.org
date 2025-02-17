@@ -10,8 +10,12 @@ So to run it, run these commands
 
 * Current tasks
 - [ ] Standard library stuff
+  - Im not sure how much of this we actually need?
   - [ ] stdint.h
   - [ ] stdbool.h
   - [ ] stddef.h
   - [ ] stdlib.h
   - [ ] time.h
+- [ ] Syscalls
+  - [ ] Reboot
+  - [ ] shutdown
