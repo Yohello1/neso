@@ -39,6 +39,21 @@ void volatileStore64(volatile uint64_t* ptr, uint64_t value) {
 /**
  *Context Switching Code is below */
 
+enum ProcessState
+{
+    Uninitialised,
+    Ready,
+    Running,
+    Dead,
+    Stopping,
+    Stopped
+};
+
+struct Program
+{
+    void (*function)();
+};
+
 struct thread_control_block
 {
     void* x2; // program stack top
