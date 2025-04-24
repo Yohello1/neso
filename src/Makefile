@@ -1,10 +1,9 @@
 ##
-# Neso-Os
+# Neso Os
 #
 # @file
 # @version 0.1
 
-# IDIR =../include
 CC=riscv64-none-elf-gcc
 CFLAGS=-march=rv64imac -mabi=lp64 -Oz -ffreestanding -nostdlib -mcmodel=medany
 
@@ -16,11 +15,10 @@ LDER=riscv64-none-elf-ld
 OBJCOPIER=riscv64-none-elf-objcopy
 OBJDUMPER=riscv64-none-elf-objdump
 
+all: neso.bin
 
-SRC=$(wildcard *.c)
-OBJ=$(SRC:.c=.o)
+SRC=$(wildcard **.c)
 
-all: prog.bin
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -28,7 +26,7 @@ all: prog.bin
 %.o: %.s
 	$(AS) $(ASMFLAGS) $< -c -o $@
 
-prog.elf: start.o $(OBJ)
+neso.elf: start.o $(SRC:.c=.o)
 	$(LDER) -Tlink.ld $^ -o $@
 
 %.bin: %.elf
@@ -37,15 +35,11 @@ prog.elf: start.o $(OBJ)
 %.list: %.elf
 	$(OBJDUMPER) -D $< > $@
 
-run: prog.bin
-	qemu-system-riscv64 -bios none -machine virt -kernel prog.bin
 
-clean:
-	rm -f *.bin *.list *.o *.elf
+run: neso.bin
+	qemu-system-riscv64 -bios none -machine virt -kernel neso.bin
 
-
-
-####### DTS Stuff
-dtsData:
+# DTS Stuff
+qemudtsData:
 	qemu-system-riscv64 -machine virt,dumpdtb=virt.dtb
 	dtc virt.dtb > virt.dts
