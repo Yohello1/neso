@@ -1,0 +1,32 @@
+.equ ra, x1
+.equ sp, x2
+.equ gp, x3
+.equ tp, x4
+.equ t0, x5
+.equ t1, x6
+.equ t2, x7
+.equ s0, x8             # x8 is both saved as reigster 0
+.equ fp, x8             # and frame pointer
+.equ s1, x9
+.equ a0, x10
+.equ a1, x11
+.equ a2, x12
+.equ a3, x13
+.equ a4, x14
+.equ a5, x15
+.equ a6, x16
+.equ a7, x17
+.equ s2, x18
+.equ s3, x19
+.equ s4, x20
+.equ s5, x21
+.equ s6, x22
+.equ s7, x23
+.equ s8, x24
+.equ s9, x25
+.equ s10, x26
+.equ s11, x27
+.equ t3, x28
+.equ t4, x29
+.equ t5, x30
+.equ t6, x31
