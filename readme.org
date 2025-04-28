@@ -1,5 +1,6 @@
 * Sources
 - https://zyedidia.github.io/blog/posts/1-d-baremetal/
+- https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/13_IOSystems.html
 * How to build/Run
 We use nix (something) to make sure that everyone has the **exact same** envrioment, and the exact same software. This is so we dont have a 'it works on my computer situation'.
 This means that to run our software, you'll need to have nix-shell (I think???) or something like that installed to enter the nix-development envrioment.
@@ -16,6 +17,7 @@ So to run it, run these commands
 -
 
 * Current tasks
+- [ ] **Implement Malloc**
 - [ ] Standard library stuff
   - Im not sure how much of this we actually need?
   - [ ] stdint.h

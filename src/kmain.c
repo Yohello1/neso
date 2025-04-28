@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 extern unsigned int _bss_start;
 extern unsigned int _bss_end;
@@ -37,7 +38,19 @@ void volatileStore64(volatile uint64_t* ptr, uint64_t value) {
 }
 
 /**
+ * Memory Mangement Code starts here! */
+
+void* malloc(size_t size)
+{
+    return 0x0;
+}
+
+/**
+ * Memory Mangement code ends here */
+
+/**
  *Context Switching Code is below */
+
 
 enum ProcessState
 {
@@ -49,27 +62,72 @@ enum ProcessState
     Stopped
 };
 
+struct context
+{
+  int64_t ra;
+  int64_t sp;
+
+  // callee-saved
+  int64_t s0;
+  int64_t s1;
+  int64_t s2;
+  int64_t s3;
+  int64_t s4;
+  int64_t s5;
+  int64_t s6;
+  int64_t s7;
+  int64_t s8;
+  int64_t s9;
+  int64_t s10;
+  int64_t s11;
+};
+
 struct Program
 {
-    void (*function)();
+    struct context ctx;
+    uint64_t *stack;
+    enum ProcessState state;
 };
 
-struct thread_control_block
+
+// This will come in useful later
+struct cpu
 {
-    void* x2; // program stack top
-    void* x2_kernel; // kernel stack top
-    void* satp; // I can find a total of... lim → 0 documentation on this
-    thread_control_block* next;
-    uint8_t state;
-
-    /*
-    ** May at some point include;
-    ** Priority, Scheduling policy of task, Process ID
-    */
+    struct Program *proc;
+    struct context context;
 };
 
-void initialize_multitasking();
+void switch_to_task(struct context* old, struct context* new);
 
+#define STACK_SIZE 1024
+void init_task_stack(struct Program* task, void*(func)())
+{
+    task->stack = (uint64_t*)malloc(STACK_SIZE); // Alloc stack space
+
+    uint64_t* stack_top = task->stack + STACK_SIZE / sizeof(uint64_t);
+
+    // setup the stack to call `func`
+    stack_top--; // stack pointer to top
+    *stack_top = (uint64_t)func; // Set return address to func
+    task->ctx.sp = (uint64_t)stack_top; // sets stack pointer
+}
+
+#define MAX_TASKS 10
+
+struct Program Programs[MAX_TASKS];
+int current_task = 0;
+
+// Round-Robin schedluer: Run the next task lol
+void schedule()
+{
+    switch_to_task(&Programs[current_task].ctx, &Programs[(current_task) % MAX_TASKS].ctx);
+}
+
+// When a timer is called, move to next task
+void timer_interrupt_handler()
+{
+    schedule();
+}
 /**
  *Context Switching code has ended :( */
 

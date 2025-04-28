@@ -30,8 +30,16 @@ SECTIONS
 
     .kstack : {
         . = ALIGN(16);
-        . += 4K;
         _stack_start = .;
+        . += 4K; /* 4 KB for stack */
+        _stack_end = .;
+    }
+
+    .heap (NOLOAD) : {
+        . = ALIGN(8);
+        __heap_start = .;
+        . += 64K; /* 64 KB heap size */
+        __heap_end = .;
     }
 
     /DISCARD/ : { *(.comment .note .eh_frame) }
