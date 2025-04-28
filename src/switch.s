@@ -1,25 +1,28 @@
 .include "abi.s"
 
-;C declaration:
-;   void switch_to_task(struct context *old, struct context *next);
-;
+.global switch_to_task
+.type switch_to_task, %function
+
+#C declaration:
+#   void switch_to_task(struct context *old, struct context *next)#
+#
 switch_to_task:
-    ;;  Save previous task's state
-    ;;
-    ;;  Notes:
-    ;;      Only registers;
-    ;;      ra, sp, s0-11 are saved
-    ;;      The rest are NOT caller-saved registers
-    ;;
-    ;; Ok for citations on how this works, check out linux/arch/riscv/include/asm/asm.h
-    ;; and linux/arch/riscv/kernel/entry.S
-    ;;
-    ;; Their REG_S/REG_L is literally just a store function
-    ;; Which is asliased to either the double word
-    ;; (ld/sd), or the single word variant depending
-    ;; upon the aarget is 32-bits or 64-bits
-    ;;
-    ;; Ok first it stores the old context, then it loads the next one
+    ##  Save previous task's state
+    ##
+    ##  Notes:
+    ##      Only registers#
+    ##      ra, sp, s0-11 are saved
+    ##      The rest are NOT caller-saved registers
+    ##
+    ## Ok for citations on how this works, check out linux/arch/riscv/include/asm/asm.h
+    ## and linux/arch/riscv/kernel/entry.S
+    ##
+    ## Their REG_S/REG_L is literally just a store function
+    ## Which is asliased to either the double word
+    ## (ld/sd), or the single word variant depending
+    ## upon the aarget is 32-bits or 64-bits
+    ##
+    ## Ok first it stores the old context, then it loads the next one
     sd ra, 0(a0)
     sd sp, 8(a0)
     sd s0, 16(a0)

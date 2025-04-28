@@ -26,7 +26,7 @@ SRC=$(wildcard **.c)
 %.o: %.s
 	$(AS) $(ASMFLAGS) $< -c -o $@
 
-neso.elf: start.o $(SRC:.c=.o)
+neso.elf: start.o switch.o $(SRC:.c=.o)
 	$(LDER) -Tlink.ld $^ -o $@
 
 %.bin: %.elf

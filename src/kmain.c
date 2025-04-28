@@ -40,11 +40,25 @@ void volatileStore64(volatile uint64_t* ptr, uint64_t value) {
 /**
  * Memory Mangement Code starts here! */
 
-void* malloc(size_t size)
-{
-    return 0x0;
+extern char __heap_start;
+extern char __heap_end;
+
+static char* heap_ptr = &__heap_start;
+static char* heap_limit = &__heap_end;
+
+void* malloc(size_t size) {
+    if (heap_ptr + size > heap_limit) {
+        return NULL;
+    }
+    void* mem = heap_ptr;
+    heap_ptr += size;
+    return mem;
 }
 
+void free(void* ptr)
+{
+
+}
 /**
  * Memory Mangement code ends here */
 
@@ -97,7 +111,7 @@ struct cpu
     struct context context;
 };
 
-void switch_to_task(struct context* old, struct context* new);
+extern void switch_to_task(struct context* old, struct context* new);
 
 #define STACK_SIZE 1024
 void init_task_stack(struct Program* task, void*(func)())
@@ -120,7 +134,8 @@ int current_task = 0;
 // Round-Robin schedluer: Run the next task lol
 void schedule()
 {
-    switch_to_task(&Programs[current_task].ctx, &Programs[(current_task) % MAX_TASKS].ctx);
+  // This is bugged...
+  switch_to_task(&Programs[current_task].ctx, &Programs[(current_task) % MAX_TASKS].ctx);
 }
 
 // When a timer is called, move to next task
