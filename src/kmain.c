@@ -57,7 +57,7 @@ void* malloc(size_t size) {
 
 void free(void* ptr)
 {
-
+  // Freeing your memory is for weaklings
 }
 /**
  * Memory Mangement code ends here */

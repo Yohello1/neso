@@ -23,6 +23,8 @@ switch_to_task:
     ## upon the aarget is 32-bits or 64-bits
     ##
     ## Ok first it stores the old context, then it loads the next one
+    ## This is for co-operative, where the program knows that it's going to syscal stuff
+
     sd ra, 0(a0)
     sd sp, 8(a0)
     sd s0, 16(a0)
